@@ -273,6 +273,11 @@ public class StaffChatPlugin extends JavaPlugin implements StaffChatAPI
                     break;
                 }
                 
+                case "prefix":
+                {
+                    sender.sendMessage("The Prefix is #");
+                }
+                
                 default:
                 {
                     sender.sendMessage(colorful("&9&lDiscordSRV-Staff-Chat&f: &7&oUnknown arguments."));
@@ -282,4 +287,26 @@ public class StaffChatPlugin extends JavaPlugin implements StaffChatAPI
         }
         return true;
     }
+    @EventHandler
+    public void chat(AsyncPlayerChatEvent event)
+    {
+        String message = event.getMessage().substring(isToggled ? 0 : character.length()).trim();
+        
+        //FileConfiguration config = plugin.getConfig();
+        //String character = config.getString("settings.character");
+        //boolean isToggled = toggledPlayers.contains(event.getPlayer().getUniqueId());
+        if (message.startsWith("#") {
+            if (sender instanceof ConsoleCommandSender)
+            {
+                sender.sendMessage("Only players may use this command.");
+                return true;
+            }
+            
+            Player player = (Player) sender;
+            
+            
+            if (message.length() <= 0) { inGameToggles.toggle(player); }
+            else { submitMessageFromInGame(player, message); }
+        }
+
 }
